@@ -62,7 +62,7 @@ def test_every_chunk_has_a_source_and_page(kb):
 
 def test_retrieval_returns_results(kb):
     results = kb.search("AI software developer productivity", limit=3)
-    assert len(results) > 0
+    assert len(results) > 100  # Temporary deliberate failure (lab Part 4)
 
 
 def test_top_k_is_respected(kb):
