@@ -2,16 +2,15 @@ from __future__ import annotations
 
 import os
 import re
+from collections.abc import Iterable
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Iterable
 
 import numpy as np
 import streamlit as st
 from pypdf import PdfReader
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-
 
 APP_DIR = Path(__file__).resolve().parent
 PDF_DIR = APP_DIR / "PDF Files"
@@ -129,7 +128,7 @@ def answer_with_llm(query: str, results: list[tuple[Chunk, float]]) -> str | Non
             ],
         )
         return response.choices[0].message.content
-    except Exception as exc:
+    except Exception as exc:  # noqa: BLE001 - any LLM failure must fall back to the retrieved passages
         st.warning(f"LLM answer unavailable; showing the retrieved passages instead. ({exc})")
         return None
 
@@ -174,7 +173,7 @@ def main() -> None:
 
     try:
         knowledge_base = build_knowledge_base(str(PDF_DIR))
-    except Exception as exc:
+    except Exception as exc:  # noqa: BLE001 - show any indexing failure in the UI instead of crashing
         st.error(f"Could not build the document index: {exc}")
         st.stop()
 

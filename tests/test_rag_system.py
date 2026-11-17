@@ -13,8 +13,8 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-import test_adapter  # noqa: E402
-from test_adapter import _get_kb, ask_chatbot  # noqa: E402
+import test_adapter
+from test_adapter import _get_kb, ask_chatbot
 
 # Every test in this file calls the live LLM, so the whole module is opt-in (see conftest.py).
 pytestmark = pytest.mark.live_llm

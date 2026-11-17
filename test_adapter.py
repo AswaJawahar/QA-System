@@ -16,8 +16,8 @@ except ImportError:
 
 logging.getLogger("streamlit").setLevel(logging.ERROR)  # silence "no ScriptRunContext" noise outside Streamlit
 
-import app  # noqa: E402
-from app import answer_with_context, answer_with_llm, build_knowledge_base  # noqa: E402
+import app
+from app import answer_with_context, answer_with_llm, build_knowledge_base
 
 # app.py indexes APP_DIR, but the PDFs live in "PDF Files/" -- point the tests at the real corpus.
 PDF_DIR = Path(__file__).resolve().parent / "PDF Files"
