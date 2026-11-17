@@ -1,0 +1,13 @@
+__pycache__/
+.venv/
+.env
+.streamlit/secrets.toml
+.pytest_cache/
+.ruff_cache/
+
+# Coursework documents and screenshots stay out of the code repository
+*.docx
+~$*
+*.jpg
+*.png
+screenshots/

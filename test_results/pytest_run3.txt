@@ -1,0 +1,71 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.2, pytest-9.2.0, pluggy-1.7.0 -- C:\Users\metth\AppData\Local\Programs\Python\Python311\python.exe
+rootdir: M:\MSIS\7623 AI Assisted Software development\QA System
+plugins: anyio-4.15.1
+collecting ... collected 38 items
+
+tests/test_rag_system.py::test_returns_non_empty_response[S1] PASSED     [  2%]
+tests/test_rag_system.py::test_returns_non_empty_response[S2] PASSED     [  5%]
+tests/test_rag_system.py::test_returns_non_empty_response[S3] PASSED     [  7%]
+tests/test_rag_system.py::test_returns_non_empty_response[S4] PASSED     [ 10%]
+tests/test_rag_system.py::test_returns_non_empty_response[S5] PASSED     [ 13%]
+tests/test_rag_system.py::test_returns_non_empty_response[P1] PASSED     [ 15%]
+tests/test_rag_system.py::test_returns_non_empty_response[P2] PASSED     [ 18%]
+tests/test_rag_system.py::test_returns_non_empty_response[A1] PASSED     [ 21%]
+tests/test_rag_system.py::test_returns_non_empty_response[O1] PASSED     [ 23%]
+tests/test_rag_system.py::test_returns_non_empty_response[RF1] PASSED    [ 26%]
+tests/test_rag_system.py::test_returns_non_empty_response[X1] PASSED     [ 28%]
+tests/test_rag_system.py::test_returns_non_empty_response[X2] PASSED     [ 31%]
+tests/test_rag_system.py::test_supported_answer_contains_expected_facts[S1] PASSED [ 34%]
+tests/test_rag_system.py::test_supported_answer_contains_expected_facts[S2] PASSED [ 36%]
+tests/test_rag_system.py::test_supported_answer_contains_expected_facts[S3] PASSED [ 39%]
+tests/test_rag_system.py::test_supported_answer_contains_expected_facts[S4] PASSED [ 42%]
+tests/test_rag_system.py::test_supported_answer_contains_expected_facts[S5] PASSED [ 44%]
+tests/test_rag_system.py::test_supported_answer_contains_expected_facts[P1] PASSED [ 47%]
+tests/test_rag_system.py::test_supported_answer_contains_expected_facts[P2] PASSED [ 50%]
+tests/test_rag_system.py::test_does_not_fabricate[O1] PASSED             [ 52%]
+tests/test_rag_system.py::test_does_not_fabricate[RF1] FAILED            [ 55%]
+tests/test_rag_system.py::test_does_not_fabricate[X1] PASSED             [ 57%]
+tests/test_rag_system.py::test_does_not_fabricate[X2] PASSED             [ 60%]
+tests/test_rag_system.py::test_paraphrases_are_consistent[G1] PASSED     [ 63%]
+tests/test_rag_system.py::test_ambiguous_answer_is_grounded[A1] PASSED   [ 65%]
+tests/test_rag_system.py::test_response_time[S1] PASSED                  [ 68%]
+tests/test_rag_system.py::test_response_time[S2] PASSED                  [ 71%]
+tests/test_rag_system.py::test_response_time[S3] PASSED                  [ 73%]
+tests/test_rag_system.py::test_response_time[S4] PASSED                  [ 76%]
+tests/test_rag_system.py::test_response_time[S5] PASSED                  [ 78%]
+tests/test_rag_system.py::test_response_time[P1] PASSED                  [ 81%]
+tests/test_rag_system.py::test_response_time[P2] PASSED                  [ 84%]
+tests/test_rag_system.py::test_response_time[A1] PASSED                  [ 86%]
+tests/test_rag_system.py::test_response_time[O1] PASSED                  [ 89%]
+tests/test_rag_system.py::test_response_time[RF1] PASSED                 [ 92%]
+tests/test_rag_system.py::test_response_time[X1] PASSED                  [ 94%]
+tests/test_rag_system.py::test_response_time[X2] PASSED                  [ 97%]
+tests/test_rag_system.py::test_zz_save_answers_for_review PASSED         [100%]
+
+================================== FAILURES ===================================
+________________________ test_does_not_fabricate[RF1] _________________________
+
+case = {'id': 'RF1', 'category': 'retrieval_failure', 'requirement': 'R4', 'question': 'What are the key findings of the AI Impact on Software Engineers 2026 report?', ...}
+
+    @pytest.mark.parametrize("case", cases("out_of_scope", "retrieval_failure", "adversarial"), ids=case_id)
+    def test_does_not_fabricate(case):
+        response = answer(case["question"])
+        lowered = response.lower()
+        # A refusal OR an explicit correction with the true fact from the source both count as conservative.
+        rebutted = any(k.lower() in lowered for k in case.get("rebuttal_keywords", []))
+>       assert is_refusal(response) or rebutted, (
+            f"Expected a conservative refusal/rebuttal.\nLLM error: {_llm_errors[case['question']]}\nAnswer: {response[:400]}"
+        )
+E       AssertionError: Expected a conservative refusal/rebuttal.
+E         LLM error: None
+E         Answer: Based on the supplied context, there is no report titled the "AI Impact on Software Engineers 2026 report." However, the provided documents include the **State of Code Developer Survey report 2026**, which highlights the following findings regarding the impact of AI:
+E         
+E         * **Time-to-Market and Productivity:** AI's impact is mostly seen in developer productivity and time-to-market. Specifically, 70% o
+E       assert (False or False)
+E        +  where False = is_refusal('Based on the supplied context, there is no report titled the "AI Impact on Software Engineers 2026 report." However, the provided documents include the **State of Code Developer Survey report 2026**, which highlights the following findings regarding the impact of AI:\n\n* **Time-to-Market and Productivity:** AI\'s impact is mostly seen in developer productivity and time-to-market. Specifically, 70% of respondents state that AI has had a positive impact on their time-to-market [state-of-code-developer-survey-report.pdf, page 12].\n* **Impact on End-User Experience and Technical Debt:** While developers are shipping code faster, this does not consistently translate to better outcomes across all areas. Less than half of respondents (47%) report a positive impact on the end-user experience or on reducing technical debt [state-of-code-developer-survey-report.pdf, page 12]. \n* **Verification and Quality:** Users of SonarQube report stronger positive impacts on code quality, technical debt, rework costs, defects, and vulnerabilities compared to non-users, suggesting that a systematic verification process is key to turning AI\'s speed into real-world quality improvements [state-of-code-developer-survey-report.pdf, page 12].')
+
+tests\test_rag_system.py:92: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_rag_system.py::test_does_not_fabricate[RF1] - AssertionErro...
+================== 1 failed, 37 passed in 179.44s (0:02:59) ===================
